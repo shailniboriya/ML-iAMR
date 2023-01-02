@@ -301,7 +301,11 @@ model_out.to_csv("CIP_gi_FCGR_CNN_model_history_out.csv",index=False)
 
 ############# Evaluation on pub data
 ### ROC
-y_pred_keras = model.predict_proba(pub_x_test)
+# y_pred_keras = model.predict_proba(pub_x_test)
+# model.predict_proba function is depricated, try this instead
+y_pred_keras=model.predict(pub_x_test)
+y_pred_keras=np.argmax(y_pred_keras,axis=1)
+
 
 ### evaluation for under-sample
 
@@ -310,4 +314,7 @@ pub_x_under,pub_y_under=undersample.fit_resample(pub_data2,pub_pheno3)
 print(Counter(pub_y_under))
 pub_x_under = pub_x_under.reshape(534,200,200,1)
 pub_x_under = pub_x_under.astype('float32')
-y_pred_keras = model.predict_proba(pub_x_under)
+# y_pred_keras = model.predict_proba(pub_x_under)
+# model.predict_proba function is depricated, try this instead
+y_pred_keras=model.predict(pub_x_under)
+y_pred_keras=np.argmax(y_pred_keras,axis=1)
